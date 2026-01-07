@@ -6,6 +6,7 @@ echo "  Установка инструментов для баз данных"
 echo "========================================="
 
 if ! command -v psql &> /dev/null; then
+  echo "Установка PostgreSQL клиента..."
   sudo apt install -y postgresql-client
   echo "✅ PostgreSQL клиент установлен"
 else
@@ -13,6 +14,7 @@ else
 fi
 
 if ! command -v dbeaver &> /dev/null; then
+  echo "Установка DBeaver..."
   sudo snap install dbeaver-ce
   echo "✅ DBeaver установлен"
 else
