@@ -13,7 +13,6 @@ sudo apt autoremove
 # Восстановление пакетов
 sudo dpkg --configure -a
 sudo apt install -f
-
 Недостаточно места на диске
 bash
 # Очистка старых ядер
@@ -24,7 +23,6 @@ docker system prune -a
 
 # Очистка журналов
 sudo journalctl --vacuum-time=7d
-
 Docker
 Ошибка: "Got permission denied"
 bash
@@ -33,7 +31,6 @@ sudo usermod -aG docker $USER
 # Проверить группы
 groups $USER
 # Перезагрузить систему или выйти/войти
-
 Docker не запускается
 bash
 # Проверить статус
@@ -41,7 +38,6 @@ sudo systemctl status docker
 # Запустить
 sudo systemctl start docker
 sudo systemctl enable docker
-
 Взаимодействие Docker и UFW
 Docker может обходить правила UFW. Для контроля используйте:
 
@@ -56,7 +52,6 @@ bash
 kubectl version --client
 # Проверить конфиг
 ls -la ~/.kube/config
-
 Сеть
 OpenVPN подключение
 bash
@@ -75,7 +70,6 @@ sudo ufw allow <port>/tcp
 sudo ufw allow from <ip> to any port <port>
 # Удалить правило
 sudo ufw delete allow <port>/tcp
-
 Терминал
 Zsh не стал оболочкой по умолчанию
 bash
@@ -83,14 +77,12 @@ bash
 chsh -s $(which zsh)
 # Проверить текущую оболочку
 echo $SHELL
-
 Плагины Oh My Zsh не работают
 bash
 # Обновить Oh My Zsh
 omz update
 # Перезагрузить конфиг
 source ~/.zshrc
-
 Базы данных
 Ошибка подключения psql
 bash
@@ -99,14 +91,12 @@ psql -h <host> -p <port> -U <user> -d <database>
 # Проверить доступность сервера
 telnet <host> <port>
 DBeaver не запускается
-
 bash
 # Проверить установку
 snap list | grep dbeaver
 # Переустановить
 sudo snap remove dbeaver-ce
 sudo snap install dbeaver-ce
-
 VS Code
 Не запускается из терминала
 bash
