@@ -1,0 +1,19 @@
+# Пример правил UFW для разработчика
+# Добавлять командами: sudo ufw allow <правило>
+
+# SSH
+ufw allow OpenSSH
+
+# Веб-разработка
+ufw allow 3000/tcp    # React/Vue/Next.js
+ufw allow 3001/tcp
+ufw allow 8080/tcp    # Spring Boot, Go
+ufw allow 8000/tcp    # Python Django/Flask
+ufw allow 4200/tcp    # Angular
+ufw allow 5173/tcp    # Vite
+
+# Базы данных (только localhost)
+ufw allow from 127.0.0.1 to any port 5432   # PostgreSQL
+ufw allow from 127.0.0.1 to any port 3306   # MySQL
+ufw allow from 127.0.0.1 to any port 27017  # MongoDB
+ufw allow from 127.0.0.1 to any port 6379   # Redis
