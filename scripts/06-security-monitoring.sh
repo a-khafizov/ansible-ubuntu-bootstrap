@@ -1,9 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "========================================="
 echo "  Настройка безопасности и мониторинга"
-echo "========================================="
 
 if ! command -v ufw &> /dev/null; then
   echo "Установка UFW (фаервол)..."
@@ -54,9 +52,8 @@ else
   echo "lazydocker уже установлен"
 fi
 
-echo ""
-echo "✅ UFW настроен и включен"
-echo "✅ btop установлен для мониторинга"
-echo "✅ chezmoi установлен для управления dotfiles"
-echo "✅ lazygit установлен (TUI для Git)"
-echo "✅ lazydocker установлен (TUI для Docker)"
+echo "UFW настроен и включен"
+echo "btop установлен для мониторинга"
+echo "chezmoi установлен для управления dotfiles"
+echo "lazygit установлен (TUI для Git)"
+echo "lazydocker установлен (TUI для Docker)"

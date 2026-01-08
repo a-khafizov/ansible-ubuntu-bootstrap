@@ -1,9 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "========================================="
-echo "  Установка Docker и Kubernetes"
-echo "========================================="
+echo "Установка Docker и Kubernetes"
 
 if ! command -v docker &> /dev/null; then
   echo "Установка Docker..."
@@ -16,7 +14,7 @@ if ! command -v docker &> /dev/null; then
   sudo apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
   
   sudo usermod -aG docker $USER
-  echo "⚠️  Перезайдите в систему для применения прав Docker"
+  echo "Перезайдите в систему для применения прав Docker"
 else
   echo "Docker уже установлен"
 fi
@@ -41,7 +39,6 @@ if ! grep -q "kubectl completion" ~/.bashrc; then
   echo 'complete -F __start_kubectl k' >> ~/.bashrc
 fi
 
-echo ""
-echo "✅ Docker установлен"
-echo "✅ Kubernetes CLI установлен"
-echo "✅ Алиасы добавлены: d, dc, k"
+echo "Docker установлен"
+echo "Kubernetes CLI установлен"
+echo "Алиасы добавлены: d, dc, k"

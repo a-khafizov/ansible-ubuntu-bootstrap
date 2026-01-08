@@ -1,9 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "========================================="
-echo "  Установка базовых системных утилит"
-echo "========================================="
+echo "Установка базовых системных утилит"
 
 sudo apt update && sudo apt upgrade -y
 
@@ -39,5 +37,4 @@ if [ -f /usr/bin/fdfind ] && [ ! -f /usr/bin/fd ]; then
   sudo ln -s /usr/bin/fdfind /usr/bin/fd
 fi
 
-echo ""
-echo "✅ Базовые утилиты установлены"
+echo "Базовые утилиты установлены"
