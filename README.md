@@ -1,126 +1,92 @@
-markdown
-# Ubuntu Developer Environment Setup
+# Developer Setup Ubuntu
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+Автоматизированное решение для быстрой настройки среды разработки на Ubuntu.
 
-Полное руководство по настройке современного рабочего окружения разработчика на Ubuntu GNOME.
+## Описание
 
-## 📋 Содержание
+Этот проект предоставляет набор скриптов для автоматической установки и настройки всех необходимых инструментов разработчика на операционной системе Ubuntu. Проект помогает новым разработчикам быстро настроить рабочую среду без ручной установки каждого компонента.
 
-- [⚡ Быстрый старт](#⚡-быстрый-старт)
-- [🛠️ Пошаговая настройка](#🛠️-пошаговая-настройка)
-  - [1. Системные обновления и базовые утилиты](#1-системные-обновления-и-базовые-утилиты)
-  - [2. Основные инструменты разработки](#2-основные-инструменты-разработки)
-  - [3. Контейнеризация и оркестрация](#3-контейнеризация-и-оркестрация)
-  - [4. Базы данных и GUI клиенты](#4-базы-данных-и-gui-клиенты)
-  - [5. API тестирование](#5-api-тестирование)
-  - [6. Браузер](#6-браузер)
-  - [7. Терминал и оболочка](#7-терминал-и-оболочка)
-  - [8. Инструменты для продуктивности](#8-инструменты-для-продуктивности)
-  - [9. Безопасность и мониторинг](#9-безопасность-и-мониторинг)
-- [🔧 Проверка установки](#🔧-проверка-установки)
-- [🔄 Обновление окружения](#🔄-обновление-окружения)
-- [🚀 Рекомендации](#🚀-рекомендации)
-- [🐛 Устранение неполадок](#🐛-устранение-неполадок)
+## Особенности
 
-## ⚡ Быстрый старт
+- ✅ **Модульная архитектура** - Каждый компонент устанавливается отдельным скриптом
+- ✅ **Интерактивное меню** - Удобный выбор компонентов для установки
+- ✅ **Современные инструменты** - VS Code, Docker, Kubernetes, Git и многое другое
+- ✅ **Безопасность** - Автоматическая настройка UFW firewall
+- ✅ **Терминал нового поколения** - Zsh с Oh My Zsh и Starship
 
-```bash
-chmod +x setup.sh
-./setup.sh
-Или запускайте скрипты по отдельности из папки scripts/.
+## Состав компонентов
 
-🛠️ Пошаговая настройка
-1. Системные обновления и базовые утилиты
-bash
-./scripts/01-basic-tools.sh
-2. Основные инструменты разработки
-bash
-./scripts/02-dev-tools.sh
-3. Контейнеризация и оркестрация
-bash
-./scripts/03-docker-k8s.sh
-4. Базы данных и GUI клиенты
-bash
-./scripts/04-database-tools.sh
-5. API тестирование
-Установка вручную:
+1. **Базовые утилиты** - curl, wget, git, build-essential, htop, btop, fzf, ripgrep, bat, jq и другие
+2. **VS Code** - Установка Visual Studio Code
+3. **Git** - Настройка Git с пользовательскими данными
+4. **Базы данных** - Клиенты PostgreSQL и DBeaver
+5. **Docker & Kubernetes** - Docker CE, kubectl с алиасами
+6. **Безопасность** - Настройка UFW firewall
+7. **Кастомные инструменты** - chezmoi, lazygit, lazydocker
+8. **Терминал** - Zsh, Oh My Zsh, Starship с плагинами
 
-bash
-# Postman
-sudo snap install postman
+## Установка
 
-# Insomnia
-echo "deb [trusted=yes arch=amd64] https://download.konghq.com/insomnia-ubuntu/ default all" | sudo tee /etc/apt/sources.list.d/insomnia.list
-sudo apt update
-sudo apt install -y insomnia
-6. Браузер
-bash
-# Yandex Browser
-wget https://repo.yandex.ru/yandex-browser/deb/pool/main/y/yandex-browser-beta/yandex-browser-beta_1.0.0-1_amd64.deb
-sudo dpkg -i yandex-browser-beta_1.0.0-1_amd64.deb
-sudo apt install -f -y
-rm yandex-browser-beta_1.0.0-1_amd64.deb
-7. Терминал и оболочка
-bash
-./scripts/05-terminal-setup.sh
-8. Инструменты для продуктивности
-bash
-# Устанавливаются в скрипте 06-security-monitoring.sh
-9. Безопасность и мониторинг
-bash
-./scripts/06-security-monitoring.sh
-🔧 Проверка установки
-bash
-./setup.sh  # Выберите опцию 3
-Или вручную:
+1. Клонируйте репозиторий:
+   ```bash
+   git clone <url> developer-setup-ubuntu
+   cd developer-setup-ubuntu
+   ```
 
-bash
-command -v code && echo "✓ VS Code" || echo "✗ VS Code"
-command -v docker && echo "✓ Docker" || echo "✗ Docker"
-command -v kubectl && echo "✓ kubectl" || echo "✗ kubectl"
-command -v psql && echo "✓ PostgreSQL Client" || echo "✗ PostgreSQL Client"
-🔄 Обновление окружения
-bash
-# Системные пакеты
-sudo apt update && sudo apt upgrade -y
-sudo snap refresh
+2. Сделайте скрипты исполняемыми:
+   ```bash
+   chmod +x setup.sh
+   chmod +x scripts/*.sh
+   ```
 
-# Docker
-sudo apt update
-sudo apt install --only-upgrade docker-ce docker-ce-cli containerd.io
+3. Запустите основной скрипт:
+   ```bash
+   ./setup.sh
+   ```
 
-# Kubernetes
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+## Использование
 
-# Oh My Zsh
-omz update
+После запуска `./setup.sh` откроется интерактивное меню с выбором действий:
 
-# TUI инструменты
-chezmoi upgrade
-curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
-🚀 Рекомендации
-После установки:
-Перезагрузите систему для применения всех изменений
+```
+Выберите действие:
+  1) Установить все компоненты
+  2) Установить базовые утилиты
+  3) Установить VS Code
+  4) Настроить Git
+  5) Установить инструменты для БД
+  6) Установить Docker и Kubernetes
+  7) Настроить безопасность (UFW)
+  8) Установить кастомные инструменты
+  9) Настроить терминал (Zsh)
+  0) Выйти
+```
 
-Настройте SSH ключи для Git
+Выберите нужный пункт меню и следуйте инструкциям.
 
-Импортируйте настройки в VS Code
+## Требования
 
-Настройте UFW правила под свои нужды (см. configs/ufw-rules.example)
+- Ubuntu 18.04 или выше
+- Доступ к интернету
+- Права sudo
 
-Лучшие практики:
-Используйте chezmoi для управления dotfiles
+## Логирование
 
-Регулярно обновляйте систему
+Все действия скрипта записываются в файл `setup.log` в директории проекта.
 
-Настройте бэкапы важных данных
+## Безопасность
 
-Используйте менеджер паролей
+Проект настраивает базовые правила UFW firewall:
+- Блокировка всех входящих соединений по умолчанию
+- Разрешение исходящего трафика
+- Разрешение SSH соединений (порт 22)
 
-🐛 Устранение неполадок
-См. docs/troubleshooting.md для решения распространенных проблем.
+Дополнительные правила для разработки находятся в `configs/ufw-rules.example`.
 
-📝 Лицензия
-MIT License - см. LICENSE файл.
+## Устранение неполадок
+
+Подробные инструкции по устранению неполадок находятся в [docs/troubleshooting.md](docs/troubleshooting.md).
+
+## Лицензия
+
+MIT
