@@ -18,7 +18,9 @@ sudo apt install -y \
   lsb-release \   # Информация о версии ОС
   unzip \         # Распаковка ZIP архивов
   zip \           # Создание ZIP архивов
-  net-tools       # Сетевые утилиты (ifconfig, netstat и др.)
+  net-tools \       # Сетевые утилиты (ifconfig, netstat и др.)
+  openvpn \         # Клиент VPN
+  network-manager-openvpn-gnome # Графический интерфейс OpenVPN для GNOME
 
 # Утилиты мониторинга и работы с системой
 sudo apt install -y \

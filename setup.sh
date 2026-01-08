@@ -83,6 +83,8 @@ show_menu() {
     echo "  7) Настроить безопасность (UFW)"
     echo "  8) Установить кастомные инструменты"
     echo "  9) Настроить терминал (Zsh)"
+    echo " 10) Установить Яндекс Браузер"
+    echo " 11) Установить GoLang"
     echo "  0) Выйти"
     echo
 }
@@ -122,6 +124,8 @@ install_all() {
     run_script "06-install-security.sh" "Безопасность (UFW)" || return 1
     run_script "07-install-custom-tools.sh" "Кастомные инструменты" || return 1
     run_script "08-install-zsh.sh" "Терминал (Zsh)" || return 1
+    run_script "09-install-yandex-browser.sh" "Яндекс Браузер" || return 1
+    run_script "10-install-golang.sh" "GoLang" || return 1
     
     print_header "Все компоненты успешно установлены!"
     print_message "${GREEN}" "Для применения некоторых изменений может потребоваться перезагрузка системы или выход из учетной записи."
@@ -158,6 +162,12 @@ install_component() {
             ;;
         9)
             run_script "08-install-zsh.sh" "Терминал (Zsh)"
+            ;;
+        10)
+            run_script "09-install-yandex-browser.sh" "Яндекс Браузер"
+            ;;
+        11)
+            run_script "10-install-golang.sh" "GoLang"
             ;;
         *)
             print_message "${YELLOW}" "Неверный выбор"
