@@ -196,13 +196,13 @@ main() {
                 print_message "${GREEN}" "Спасибо за использование скрипта! До свидания."
                 exit 0
                 ;;
-            [1-9])
+            [0-9]|1[0-1])
                 install_component $choice
                 echo
                 read -p "Нажмите Enter для продолжения..."
                 ;;
             *)
-                print_message "${YELLOW}" "Неверный выбор. Пожалуйста, введите число от 0 до 9."
+                print_message "${YELLOW}" "Неверный выбор. Пожалуйста, введите число от 0 до 11."
                 ;;
         esac
     done
