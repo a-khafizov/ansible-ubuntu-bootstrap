@@ -78,6 +78,14 @@ if ! grep -q "export PATH=\$PATH:/usr/local/go/bin" ~/.bashrc; then
     echo "Go добавлен в PATH. Перезапустите терминал или выполните 'source ~/.bashrc'"
 fi
 
+# Добавление Go в PATH для zsh (если еще не добавлено)
+if [ -f ~/.zshrc ]; then
+    if ! grep -q "export PATH=\$PATH:/usr/local/go/bin" ~/.zshrc; then
+        echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.zshrc
+        echo "Go добавлен в PATH для zsh. Перезапустите терминал или выполните 'source ~/.zshrc'"
+    fi
+fi
+
 # Удаление установочного файла
 rm ${ARCHIVE_NAME}
 
