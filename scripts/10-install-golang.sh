@@ -52,7 +52,8 @@ fi
 # Определение версии для установки
 if [ "$GO_VERSION" = "latest" ]; then
     echo "Получение последней версии Go..."
-    GO_VERSION=$(curl -s https://go.dev/VERSION?m=text)
+        # Получаем последнюю версию Go, убирая лишние символы
+        GO_VERSION=$(curl -s https://go.dev/VERSION?m=text | head -n 1 | tr -d '\n\r')
 else
     # Проверяем, начинается ли версия с "go", если нет - добавляем
     if [[ $GO_VERSION != go* ]]; then

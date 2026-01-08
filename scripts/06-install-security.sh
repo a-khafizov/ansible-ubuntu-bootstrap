@@ -12,7 +12,14 @@ echo "Настройка правил UFW..."
 
 sudo ufw default deny incoming   # Блокировать все входящие
 sudo ufw default allow outgoing  # Разрешить все исходящие
-sudo ufw allow OpenSSH           # Разрешить SSH (порт 22)
+
+# Проверяем, установлен ли SSH сервер перед добавлением правила
+if systemctl is-active --quiet ssh; then
+    sudo ufw allow OpenSSH        # Разрешить SSH (порт 22)
+    echo "Правило OpenSSH добавлено"
+else
+    echo "SSH сервер не активен, правило OpenSSH пропущено"
+fi
 
 echo "y" | sudo ufw enable       # Включить фаервол (автоподтверждение)
 

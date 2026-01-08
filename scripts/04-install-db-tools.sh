@@ -8,7 +8,7 @@ if ! command -v psql &> /dev/null; then
 fi
 
 if ! command -v dbeaver &> /dev/null; then
-    sudo snap install dbeaver-ce
+    sudo snap install dbeaver-ce --classic
 fi
 
 echo "Инструменты для баз данных установлены"

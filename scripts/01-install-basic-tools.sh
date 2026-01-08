@@ -6,38 +6,16 @@ echo "Установка базовых системных утилит"
 sudo apt update && sudo apt upgrade -y
 
 # Важные системные пакеты
-sudo apt install -y \
-  curl \          # Загрузка файлов из интернета
-  wget \          # Альтернатива curl для загрузки
-  git \           # Система контроля версий
-  build-essential \ # Компиляторы и инструменты для сборки
-  software-properties-common \ # Управление репозиториями
-  apt-transport-https \ # Поддержка HTTPS для apt
-  ca-certificates \ # Сертификаты для безопасных соединений
-  gnupg \         # Шифрование и подписи пакетов
-  lsb-release \   # Информация о версии ОС
-  unzip \         # Распаковка ZIP архивов
-  zip \           # Создание ZIP архивов
-  net-tools \       # Сетевые утилиты (ifconfig, netstat и др.)
-  openvpn \         # Клиент VPN
-  network-manager-openvpn-gnome # Графический интерфейс OpenVPN для GNOME
+echo "Установка системных пакетов..."
+sudo apt install -y curl wget git build-essential software-properties-common apt-transport-https ca-certificates gnupg lsb-release unzip zip net-tools openvpn network-manager-openvpn-gnome
 
 # Утилиты мониторинга и работы с системой
-sudo apt install -y \
-  htop \          # Интерактивный мониторинг процессов
-  btop \          # Продвинутый мониторинг с графикой
-  ncdu \          # Анализ использования диска
-  nethogs \       # Мониторинг сетевого трафика по процессам
-  tree            # Дерево каталогов
+echo "Установка утилит мониторинга..."
+sudo apt install -y htop btop ncdu nethogs tree
 
 # CLI инструменты (доступные через apt)
-sudo apt install -y \
-  fzf \           # Fuzzy finder для быстрого поиска
-  ripgrep \       # Быстрый поиск по содержимому файлов
-  bat \           # Просмотр файлов с подсветкой синтаксиса
-  fd-find \       # Удобный поиск файлов
-  jq \            # Обработка JSON
-  yq              # Обработка YAML
+echo "Установка CLI инструментов..."
+sudo apt install -y fzf ripgrep bat fd-find jq yq
 
 # Симлинки для удобства (batcat -> bat, fdfind -> fd)
 if [ -f /usr/bin/batcat ] && [ ! -f /usr/bin/bat ]; then

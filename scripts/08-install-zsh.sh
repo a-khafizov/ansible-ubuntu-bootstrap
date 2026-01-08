@@ -50,9 +50,12 @@ alias d='docker' alias dc='docker compose' alias k='kubectl' # Dev алиасы
 ZSH_CONFIG
 
 # Смена оболочки по умолчанию на Zsh
-if [[ $SHELL != *"zsh"* ]]; then
+# Проверяем, запущен ли скрипт в интерактивном режиме
+if [ -t 0 ] && [[ $SHELL != *"zsh"* ]]; then
     chsh -s $(which zsh)
     echo "Оболочка изменена на Zsh. Выйдите и войдите заново."
+elif [[ $SHELL != *"zsh"* ]]; then
+    echo "Оболочка не изменена в автоматическом режиме."
 fi
 
 echo "Zsh + Oh My Zsh + Starship установлены"
