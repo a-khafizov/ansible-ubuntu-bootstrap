@@ -1,0 +1,30 @@
+---
+# Настройка VS Code
+
+- name: Проверка наличия VS Code
+  command: which code
+  register: code_check
+  ignore_errors: yes
+  tags: ide
+
+- name: Настройка VS Code (если установлен)
+  when: code_check.rc == 0
+  block:
+    - name: Установка расширений VS Code
+      shell: code --install-extension {{ item }} --force
+      loop: "{{ vscode_extensions }}"
+      tags: ide
+
+    - name: Настройка конфигурации VS Code
+      copy:
+        content: |
+          {
+            "editor.renderWhitespace": "all",
+            "files.autoSave": "onFocusChange",
+            "editor.minimap.enabled": false,
+            "workbench.colorTheme": "Default Dark+",
+            "terminal.integrated.shell.linux": "/usr/bin/zsh"
+          }
+        dest: "{{ user_home }}/.config/Code/User/settings.json"
+        mode: '0644'
+      tags: ide

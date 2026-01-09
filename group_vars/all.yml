@@ -1,0 +1,80 @@
+---
+# Глобальные переменные для настройки рабочего окружения
+
+# Флаги для управления установкой компонентов
+install_core: true
+install_cli_tools: true
+install_dev_env: true
+install_desktop_apps: true
+install_ide_config: true
+
+# Пользовательские настройки
+username: "{{ ansible_env.USER }}"
+user_home: "{{ ansible_env.HOME }}"
+
+# Настройки Git
+git_username: "Developer"
+git_email: "developer@localhost"
+
+# Версии и параметры для установки
+nodejs_version: "lts"
+python_version: "3"
+go_version: "latest"
+
+# Списки пакетов для установки
+core_packages:
+  - curl
+  - wget
+  - git
+  - build-essential
+  - software-properties-common
+  - apt-transport-https
+  - ca-certificates
+  - gnupg
+  - lsb-release
+  - unzip
+  - zip
+  - net-tools
+  - openvpn
+  - network-manager-openvpn-gnome
+  - htop
+  - btop
+  - ncdu
+  - nethogs
+  - tree
+  - fzf
+  - ripgrep
+  - bat
+  - fd-find
+  - jq
+  - yq
+
+cli_tools_packages:
+  - zsh
+  - tmux
+
+dev_env_packages:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-compose-plugin
+  - postgresql-client
+  - python3-pip
+  - openjdk-11-jdk
+
+desktop_apps_packages:
+  - code
+  - dbeaver-ce
+
+# Настройки для Oh-My-Zsh
+zsh_theme: "robbyrussell"
+zsh_plugins:
+  - git
+  - docker
+  - docker-compose
+  - zsh-syntax-highlighting
+  - zsh-autosuggestions
+
+# Настройки для VS Code
+vscode_extensions:
+  - ms-python.python
