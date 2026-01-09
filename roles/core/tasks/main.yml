@@ -1,0 +1,46 @@
+---
+# Базовая настройка системы: обновление пакетов, установка основных утилит
+
+- name: Обновление списка пакетов
+  apt:
+    update_cache: yes
+  tags: core
+
+- name: Установка основных пакетов
+  apt:
+    name: "{{ core_packages }}"
+    state: present
+  tags: core
+
+- name: Создание симлинков для bat и fd
+  file:
+    src: "/usr/bin/{{ item.src }}"
+    dest: "{{ user_home }}/.local/bin/{{ item.dest }}"
+    state: link
+  loop:
+    - { src: "batcat", dest: "bat" }
+    - { src: "fdfind", dest: "fd" }
+  tags: core
+
+- name: Настройка Git
+  block:
+    - name: Установка имени пользователя Git
+      command: git config --global user.name "{{ git_username }}"
+      tags: core
+
+    - name: Установка email пользователя Git
+      command: git config --global user.email "{{ git_email }}"
+      tags: core
+
+    - name: Установка редактора по умолчанию для Git
+      command: git config --global core.editor "code --wait"
+      tags: core
+
+    - name: Установка основной ветки по умолчанию для Git
+      command: git config --global init.defaultBranch main
+      tags: core
+
+    - name: Отключение rebase при pull для Git
+      command: git config --global pull.rebase false
+      tags: core
+  tags: core

@@ -1,0 +1,173 @@
+---
+# Настройка среды разработки: docker, docker-compose, python3-pip, nodejs (nvm), java (SDKMAN!), go
+
+- name: Установка пакетов для среды разработки
+  apt:
+    name: "{{ dev_env_packages }}"
+    state: present
+  tags: dev
+
+- name: Добавление пользователя в группу docker
+  user:
+    name: "{{ username }}"
+    groups: docker
+    append: yes
+  tags: dev
+
+- name: Включение и запуск сервиса docker
+  systemd:
+    name: docker
+    enabled: yes
+    state: started
+  tags: dev
+
+- name: Установка Node.js через NVM (если не установлен)
+  shell: |
+    export NVM_DIR="$HOME/.nvm"
+    if [ ! -d "$NVM_DIR" ]; then
+      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+      source $NVM_DIR/nvm.sh
+      nvm install {{ nodejs_version }}
+    fi
+  args:
+    executable: /bin/bash
+  tags: dev
+  ignore_errors: yes
+
+- name: Установка Java через SDKMAN! (если не установлен)
+  shell: |
+    export SDKMAN_DIR="$HOME/.sdkman"
+    if [ ! -d "$SDKMAN_DIR" ]; then
+      curl -s "https://get.sdkman.io" | bash
+      source "$SDKMAN_DIR/bin/sdkman-init.sh"
+      sdk install java
+    fi
+  args:
+    executable: /bin/bash
+  tags: dev
+  ignore_errors: yes
+
+- name: Установка Go (если не установлена)
+  shell: |
+    export GOPATH="$HOME/go"
+    if [ ! -d "$GOPATH" ]; then
+      curl -O https://dl.google.com/go/go{{ go_version }}.linux-amd64.tar.gz
+      sudo tar -C /usr/local -xzf go{{ go_version }}.linux-amd64.tar.gz
+      echo 'export PATH=$PATH:/usr/local/go/bin' >> $HOME/.profile
+    fi
+  args:
+    executable: /bin/bash
+  tags: dev
+  ignore_errors: yes
+
+- name: Установка chezmoi (если не установлен)
+  shell: sh -c "$(curl -fsSL https://git.io/chezmoi)" -- -b "{{ user_home }}/.local/bin"
+  args:
+    creates: "{{ user_home }}/.local/bin/chezmoi"
+  tags: dev
+
+- name: Установка lazygit (если не установлен)
+  shell: |
+    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
+    curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+    tar xf lazygit.tar.gz lazygit
+    sudo install lazygit /usr/local/bin
+    rm -f lazygit.tar.gz lazygit
+  args:
+    executable: /bin/bash
+  tags: dev
+  ignore_errors: yes
+
+- name: Установка lazydocker (если не установлен)
+  shell: curl -s https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+  args:
+    executable: /bin/bash
+  tags: dev
+  ignore_errors: yes
+
+- name: Добавление ~/.local/bin в PATH для bash
+  lineinfile:
+    path: "{{ user_home }}/.bashrc"
+    line: 'export PATH="$PATH:{{ user_home }}/.local/bin"'
+    create: yes
+  tags: dev
+
+- name: Добавление ~/.local/bin в PATH для zsh
+  lineinfile:
+    path: "{{ user_home }}/.zshrc"
+    line: 'export PATH="$PATH:{{ user_home }}/.local/bin"'
+    create: yes
+  tags: dev
+
+- name: Добавление алиасов для docker и kubectl в .bashrc
+  lineinfile:
+    path: "{{ user_home }}/.bashrc"
+    line: 'alias {{ item.alias }}="{{ item.command }}"'
+    create: yes
+  loop:
+    - { alias: "d", command: "docker" }
+    - { alias: "dc", command: "docker compose" }
+  tags: dev
+
+- name: Добавление алиасов для docker и kubectl в .zshrc
+  lineinfile:
+    path: "{{ user_home }}/.zshrc"
+    line: 'alias {{ item.alias }}="{{ item.command }}"'
+    create: yes
+  loop:
+    - { alias: "d", command: "docker" }
+    - { alias: "dc", command: "docker compose" }
+  tags: dev
+
+- name: Установка kubectl (если не установлен)
+  shell: |
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+    rm kubectl
+  args:
+    executable: /bin/bash
+    creates: /usr/local/bin/kubectl
+  tags: dev
+  ignore_errors: yes
+
+- name: Добавление алиаса для kubectl в .bashrc
+  lineinfile:
+    path: "{{ user_home }}/.bashrc"
+    line: 'alias k="kubectl"'
+    create: yes
+  tags: dev
+
+- name: Добавление алиаса для kubectl в .zshrc
+  lineinfile:
+    path: "{{ user_home }}/.zshrc"
+    line: 'alias k="kubectl"'
+    create: yes
+  tags: dev
+
+- name: Включение автодополнения для kubectl в bash
+  lineinfile:
+    path: "{{ user_home }}/.bashrc"
+    line: 'source <(kubectl completion bash)'
+    create: yes
+  tags: dev
+
+- name: Включение автодополнения для kubectl в zsh
+  lineinfile:
+    path: "{{ user_home }}/.zshrc"
+    line: 'source <(kubectl completion zsh)'
+    create: yes
+  tags: dev
+
+- name: Включение автодополнения для алиаса k в bash
+  lineinfile:
+    path: "{{ user_home }}/.bashrc"
+    line: 'complete -F __start_kubectl k'
+    create: yes
+  tags: dev
+
+- name: Включение автодополнения для алиаса k в zsh
+  lineinfile:
+    path: "{{ user_home }}/.zshrc"
+    line: 'compdef k=kubectl'
+    create: yes
+  tags: dev

@@ -1,0 +1,41 @@
+---
+# Главный плейбук для настройки рабочего окружения разработчика
+
+- hosts: localhost
+  connection: local
+  become: yes
+  vars_files:
+    - group_vars/all.yml
+
+  vars:
+    user_home: "{{ ansible_env.HOME }}"
+    username: "{{ ansible_user }}"
+
+  pre_tasks:
+    - name: Убедиться, что ~/.local/bin существует
+      file:
+        path: "{{ user_home }}/.local/bin"
+        state: directory
+        mode: '0755'
+      tags: always
+
+  roles:
+    - role: core
+      when: install_core | bool
+      tags: core
+
+    - role: cli-tools
+      when: install_cli_tools | bool
+      tags: cli
+
+    - role: dev-env
+      when: install_dev_env | bool
+      tags: dev
+
+    - role: desktop-apps
+      when: install_desktop_apps | bool
+      tags: desktop
+
+    - role: ide-config
+      when: install_ide_config | bool
+      tags: ide
