@@ -9,72 +9,88 @@ install_desktop_apps: true
 install_ide_config: true
 
 # Пользовательские настройки
-username: "{{ ansible_env.USER }}"
-user_home: "{{ ansible_env.HOME }}"
+username: "{{ ansible_env.USER }}"          # Имя текущего пользователя (из окружения)
+user_home: "{{ ansible_env.HOME }}"        # Домашняя директория пользователя (из окружения)
 
 # Настройки Git
-git_username: "Developer"
-git_email: "developer@localhost"
+git_username: "Developer"                 # Имя пользователя для Git-коммитов
+git_email: "developer@localhost"          # Email для Git-коммитов
 
 # Версии и параметры для установки
-nodejs_version: "lts"
-python_version: "3"
-go_version: "latest"
+nodejs_version: "lts"                       # Версия Node.js (последняя LTS)
+python_version: "3"                         # Версия Python (основная ветка)
+go_version: "latest"                      # Версия Go (самая свежая)
 
 # Списки пакетов для установки
 core_packages:
-  - curl
-  - wget
-  - git
-  - build-essential
-  - software-properties-common
-  - apt-transport-https
-  - ca-certificates
-  - gnupg
-  - lsb-release
-  - unzip
-  - zip
-  - net-tools
-  - openvpn
-  - network-manager-openvpn-gnome
-  - htop
-  - btop
-  - ncdu
-  - nethogs
-  - tree
-  - fzf
-  - ripgrep
-  - bat
-  - fd-find
-  - jq
-  - yq
+  - curl                                   # Загрузка файлов по HTTP/HTTPS (командная строка)
+  - wget                                   # Альтернатива curl для загрузки файлов
+  - git                                  # Система контроля версий
+  - build-essential                      # Базовый набор для компиляции ПО в Debian/Ubuntu
+  - software-properties-common           # Управление репозиториями APT
+  - apt-transport-https                  # Поддержка HTTPS в APT
+  - ca-certificates                      # Сертификаты доверенных центров сертификации
+  - gnupg                                # Шифрование и подписи (GPG)
+  - lsb-release                          # Информация о дистрибутиве Linux
+  - unzip                                # Распаковка ZIP-архивов
+  - zip                                  # Создание ZIP-архивов
+  - net-tools                            # Устаревшие сетевые утилиты (ifconfig, netstat)
+  - openvpn                              # Клиент VPN по протоколу OpenVPN
+  - network-manager-openvpn-gnome      # GUI-интеграция OpenVPN в GNOME
+  - htop                                 # Интерактивный монитор процессов (альтернатива top)
+  - btop                                 # Современный монитор ресурсов с графиками
+  - ncdu                                 # Анализ использования диска (в терминале)
+  - nethogs                              # Мониторинг сетевого трафика по процессам
+  - tree                                 # Вывод структуры директорий в виде дерева
+  - fzf                                  # Fuzzy-поиск по файлам и командам
+  - ripgrep                              # Быстрый поиск текста в файлах (аналог grep)
+  - bat                                  # Улучшенный cat с подсветкой синтаксиса
+  - fd-find                              # Быстрый аналог find для поиска файлов
+  - jq                                   # Обработка JSON в командной строке
+  - yq                                   # Обработка YAML/JSON в командной строке
 
 cli_tools_packages:
-  - zsh
-  - tmux
+  - zsh                                  # Расширенная командная оболочка (замена bash)
+  - tmux                                 # Мультиплексор терминалов (разделение экрана, сессии)
 
 dev_env_packages:
-  - docker-ce
-  - docker-ce-cli
-  - containerd.io
-  - docker-compose-plugin
-  - postgresql-client
-  - python3-pip
-  - openjdk-11-jdk
+  - docker-ce                            # Движок Docker (Community Edition)
+  - docker-ce-cli                        # CLI-инструменты Docker
+  - containerd.io                        # Среда выполнения контейнеров
+  - docker-compose-plugin              # Плагин для docker compose
+  - postgresql-client                    # Клиент для работы с PostgreSQL
+  - python3-pip                          # Менеджер пакетов для Python 3
+  - openjdk-11-jdk                       # JDK для разработки на Java (версия 11)
 
 desktop_apps_packages:
-  - code
-  - dbeaver-ce
+  - code                                 # Visual Studio Code (редактор кода)
+  - dbeaver-ce                           # Универсальный SQL-клиент с GUI
 
 # Настройки для Oh-My-Zsh
-zsh_theme: "robbyrussell"
+zsh_theme: "robbyrussell"                # Тема оформления для Zsh (стандартная)
 zsh_plugins:
-  - git
-  - docker
-  - docker-compose
-  - zsh-syntax-highlighting
-  - zsh-autosuggestions
+  - git                                  # Подсказки и автодополнение для Git
+  - docker                               # Автодополнение команд Docker
+  - docker-compose                     # Автодополнение для docker-compose
+  - zsh-syntax-highlighting            # Подсветка синтаксиса в командной строке
+  - zsh-autosuggestions                # Автодополнение на основе истории команд
 
 # Настройки для VS Code
 vscode_extensions:
-  - ms-python.python
+  - adamhartford.vscode-base64          # Работа с кодировкой Base64 (кодировка/декодирование)
+  - doggy8088.go-extension-pack         # Набор расширений для разработки на Go
+  - dotjoshjohnson.xml                 # Поддержка XML (форматирование, валидация)
+  - eamodio.gitlens                    # Расширенные возможности Git в VS Code (история, аннотации)
+  - formulahendry.code-runner          # Запуск кода одним кликом (поддержка множества языков)
+  - golang.go                          # Официальная поддержка Go (автодополнение, отладка)
+  - hayden.extension-pack-manager      # Управление наборами расширений (паками)
+  - ms-azuretools.vscode-containers     # Работа с контейнерами в Azure
+  - ms-ceintl.vscode-language-pack-ru # Русскоязычный языковой пакет для VS Code
+  - ms-kubernetes-tools.vscode-kubernetes-tools # Инструменты для работы с Kubernetes
+  - ms-vscode-remote.remote-containers # Разработка внутри контейнеров
+  - ms-vscode-remote.remote-wsl       # Разработка в среде WSL (Windows Subsystem for Linux)
+  - nhoizey.gremlins                   # Визуализация скрытых символов (пробелы, табуляции)
+  - premparihar.gotestexplorer         # Запуск и анализ тестов для Go
+  - quicktype.quicktype                # Генерация кода из JSON/schema (поддержка многих языков)
+  - redhat.vscode-xml                 # Расширенная поддержка XML (схемы, XPath)
+  - redhat.vscode-yaml                # Поддержка YAML (схемы, валидация)
