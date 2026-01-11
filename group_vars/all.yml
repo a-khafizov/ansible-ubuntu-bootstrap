@@ -11,6 +11,7 @@ install_ide_config: true
 # Пользовательские настройки
 username: "{{ ansible_env.USER }}"          # Имя текущего пользователя (из окружения)
 user_home: "{{ ansible_env.HOME }}"        # Домашняя директория пользователя (из окружения)
+target_user_home: "{{ ansible_user_dir }}" # Домашняя директория целевого пользователя (для задач, выполняемых от имени root)
 
 # Настройки Git
 git_username: "Developer"                 # Имя пользователя для Git-коммитов

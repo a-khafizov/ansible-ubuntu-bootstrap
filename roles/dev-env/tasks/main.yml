@@ -32,7 +32,7 @@
   args:
     executable: /bin/bash
   tags: dev
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Установка Java через SDKMAN! (если не установлен)
   shell: |
@@ -45,7 +45,7 @@
   args:
     executable: /bin/bash
   tags: dev
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Установка Go (если не установлена)
   shell: |
@@ -58,7 +58,7 @@
   args:
     executable: /bin/bash
   tags: dev
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Установка chezmoi (если не установлен)
   shell: sh -c "$(curl -fsSL https://git.io/chezmoi)" -- -b "{{ user_home }}/.local/bin"
@@ -76,14 +76,14 @@
   args:
     executable: /bin/bash
   tags: dev
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Установка lazydocker (если не установлен)
   shell: curl -s https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
   args:
     executable: /bin/bash
   tags: dev
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Добавление ~/.local/bin в PATH для bash
   lineinfile:
@@ -128,7 +128,7 @@
     executable: /bin/bash
     creates: /usr/local/bin/kubectl
   tags: dev
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Добавление алиаса для kubectl в .bashrc
   lineinfile:
