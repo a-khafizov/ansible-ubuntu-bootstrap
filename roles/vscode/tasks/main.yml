@@ -1,0 +1,52 @@
+---
+# Установка VS Code через APT
+- name: Добавить GPG-ключ Microsoft
+  apt_key:
+    url: https://packages.microsoft.com/keys/microsoft.asc
+    state: present
+  tags: vscode
+
+- name: Добавить репозиторий VS Code
+  apt_repository:
+    repo: deb [arch=amd64] https://packages.microsoft.com/repos/code stable main
+    state: present
+    filename: vscode
+  tags: vscode
+
+- name: Установить VS Code
+  apt:
+    name: code
+    state: present
+  tags: vscode
+
+- name: Проверка наличия VS Code
+  command: which code
+  register: code_check
+  ignore_errors: true
+  tags: vscode
+
+- name: Настройка VS Code (если установлен)
+  when: code_check.rc == 0
+  block:
+    - name: Установка расширений VS Code
+      command: code --install-extension {{ item }} --force --no-sandbox --user-data-dir "{{ user_home }}/.config/Code/User"
+      loop: "{{ vscode_extensions }}"
+      environment:
+        HOME: "{{ user_home }}"
+      tags: vscode
+
+    - name: Настройка конфигурации VS Code
+      copy:
+        content: |
+          {
+            "editor.renderWhitespace": "all",
+            "files.autoSave": "onFocusChange",
+            "editor.minimap.enabled": false,
+            "workbench.colorTheme": "Default Dark+",
+            "terminal.integrated.shell.linux": "/bin/bash"
+          }
+        dest: "{{ user_home }}/.config/Code/User/settings.json"
+        mode: '0644'
+        owner: "{{ username }}"
+        group: "{{ username }}"
+      tags: vscode

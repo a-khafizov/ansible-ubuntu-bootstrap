@@ -12,6 +12,13 @@
     state: present
   tags: core
 
+- name: Установка DBeaver через Snap
+  snap:
+    name: dbeaver-ce
+    classic: yes
+    state: present
+  tags: core
+
 - name: Создание симлинков для bat и fd
   file:
     src: "/usr/bin/{{ item.src }}"
@@ -23,24 +30,25 @@
   tags: core
 
 - name: Настройка Git
-  block:
-    - name: Установка имени пользователя Git
-      command: git config --global user.name "{{ git_username }}"
-      tags: core
+  git_config:
+    name: "{{ item.name }}"
+    scope: global
+    value: "{{ item.value }}"
+  loop:
+    - { name: "user.name", value: "{{ git_username }}" }
+    - { name: "user.email", value: "{{ git_email }}" }
+    - { name: "core.editor", value: "code --wait" }
+    - { name: "init.defaultBranch", value: "main" }
+    - { name: "pull.rebase", value: "false" }
+  tags: core
 
-    - name: Установка email пользователя Git
-      command: git config --global user.email "{{ git_email }}"
-      tags: core
-
-    - name: Установка редактора по умолчанию для Git
-      command: git config --global core.editor "code --wait"
-      tags: core
-
-    - name: Установка основной ветки по умолчанию для Git
-      command: git config --global init.defaultBranch main
-      tags: core
-
-    - name: Отключение rebase при pull для Git
-      command: git config --global pull.rebase false
-      tags: core
+- name: Добавление алиасов в .bashrc
+  blockinfile:
+    path: "{{ user_home }}/.bashrc"
+    block: |
+      alias ll='ls -la'
+      alias gs='git status'
+      alias gp='git pull'
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (ALIASES)"
+    create: yes
   tags: core

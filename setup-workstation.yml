@@ -9,7 +9,7 @@
 
   vars:
     user_home: "{{ ansible_env.HOME }}"
-    username: "{{ ansible_user }}"
+    username: "{{ ansible_env.USER }}"
 
   pre_tasks:
     - name: Убедиться, что ~/.local/bin существует
@@ -24,18 +24,10 @@
       when: install_core | bool
       tags: core
 
-    - role: cli-tools
-      when: install_cli_tools | bool
-      tags: cli
-
-    - role: dev-env
+    - role: dev
       when: install_dev_env | bool
       tags: dev
 
-    - role: desktop-apps
-      when: install_desktop_apps | bool
-      tags: desktop
-
-    - role: ide-config
+    - role: vscode
       when: install_ide_config | bool
       tags: ide

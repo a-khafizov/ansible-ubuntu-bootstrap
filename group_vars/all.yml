@@ -3,24 +3,17 @@
 
 # Флаги для управления установкой компонентов
 install_core: true
-install_cli_tools: true
 install_dev_env: true
-install_desktop_apps: true
 install_ide_config: true
 
 # Пользовательские настройки
-username: "{{ ansible_env.USER }}"          # Имя текущего пользователя (из окружения)
-user_home: "{{ ansible_env.HOME }}"        # Домашняя директория пользователя (из окружения)
+username: "{{ lookup('env', 'USER') }}"          # Имя текущего пользователя (из окружения)
+user_home: "{{ lookup('env', 'HOME') }}"        # Домашняя директория пользователя (из окружения)
 target_user_home: "{{ ansible_user_dir }}" # Домашняя директория целевого пользователя (для задач, выполняемых от имени root)
 
 # Настройки Git
 git_username: "Developer"                 # Имя пользователя для Git-коммитов
 git_email: "developer@localhost"          # Email для Git-коммитов
-
-# Версии и параметры для установки
-nodejs_version: "lts"                       # Версия Node.js (последняя LTS)
-python_version: "3"                         # Версия Python (основная ветка)
-go_version: "latest"                      # Версия Go (самая свежая)
 
 # Списки пакетов для установки
 core_packages:
@@ -49,32 +42,7 @@ core_packages:
   - fd-find                              # Быстрый аналог find для поиска файлов
   - jq                                   # Обработка JSON в командной строке
   - yq                                   # Обработка YAML/JSON в командной строке
-
-cli_tools_packages:
-  - zsh                                  # Расширенная командная оболочка (замена bash)
   - tmux                                 # Мультиплексор терминалов (разделение экрана, сессии)
-
-dev_env_packages:
-  - docker-ce                            # Движок Docker (Community Edition)
-  - docker-ce-cli                        # CLI-инструменты Docker
-  - containerd.io                        # Среда выполнения контейнеров
-  - docker-compose-plugin              # Плагин для docker compose
-  - postgresql-client                    # Клиент для работы с PostgreSQL
-  - python3-pip                          # Менеджер пакетов для Python 3
-  - openjdk-11-jdk                       # JDK для разработки на Java (версия 11)
-
-desktop_apps_packages:
-  - code                                 # Visual Studio Code (редактор кода)
-  - dbeaver-ce                           # Универсальный SQL-клиент с GUI
-
-# Настройки для Oh-My-Zsh
-zsh_theme: "robbyrussell"                # Тема оформления для Zsh (стандартная)
-zsh_plugins:
-  - git                                  # Подсказки и автодополнение для Git
-  - docker                               # Автодополнение команд Docker
-  - docker-compose                     # Автодополнение для docker-compose
-  - zsh-syntax-highlighting            # Подсветка синтаксиса в командной строке
-  - zsh-autosuggestions                # Автодополнение на основе истории команд
 
 # Настройки для VS Code
 vscode_extensions:

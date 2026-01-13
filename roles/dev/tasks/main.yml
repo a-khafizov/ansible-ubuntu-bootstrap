@@ -1,0 +1,107 @@
+---
+# Установка и настройка инструментов разработки
+
+# 1. Обновление кэша пакетов (единократно)
+- name: Обновить список пакетов
+  apt:
+    update_cache: yes
+  changed_when: false
+  tags: dev
+
+# 2. Python (используем системный, добавляем pip и venv)
+- name: Установить python3-pip и python3-venv
+  apt:
+    name:
+      - python3-pip
+      - python3-venv
+    state: present
+  tags: dev
+
+# 3. Node.js (через NodeSource репозиторий)
+- name: Добавить репозиторий NodeSource для Node.js 20.x
+  shell: curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+  args:
+    executable: /bin/bash
+  changed_when: false
+  tags: dev
+
+- name: Установить Node.js и npm
+  apt:
+    name: nodejs
+    state: present
+  tags: dev
+
+# 4. Java (OpenJDK 17 — актуальная LTS)
+- name: Установить OpenJDK 17
+  apt:
+    name: openjdk-17-jdk
+    state: present
+  tags: dev
+
+# 5. Go (ручная установка из официального архива)
+- name: Скачать Go 1.22.5 для Linux amd64
+  get_url:
+    url: https://go.dev/dl/go1.22.5.linux-amd64.tar.gz
+    dest: /tmp/go1.22.5.linux-amd64.tar.gz
+  tags: dev
+
+- name: Распаковать Go в /usr/local
+  unarchive:
+    src: /tmp/go1.22.5.linux-amd64.tar.gz
+    dest: /usr/local
+    remote_src: yes
+    extra_opts: [--strip-components=1]
+  tags: dev
+
+- name: Добавить Go в PATH (для всех пользователей)
+  copy:
+    content: |
+      export PATH="$PATH:/usr/local/go/bin"
+    dest: /etc/profile.d/go.sh
+    mode: '0644'
+  tags: dev
+
+# 6. Docker (официальный репозиторий)
+- name: Добавить GPG‑ключ Docker
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+  tags: dev
+
+- name: Добавить репозиторий Docker
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+    state: present
+  tags: dev
+
+- name: Установить Docker CE
+  apt:
+    name: docker-ce
+    state: present
+  tags: dev
+
+# 7. kubectl (официальная бинарная сборка)
+- name: Скачать kubectl v1.29.0
+  get_url:
+    url: https://dl.k8s.io/release/v1.29.0/bin/linux/amd64/kubectl
+    dest: /usr/local/bin/kubectl
+    mode: '0755'
+  tags: dev
+
+- name: Добавление ~/.local/bin в PATH для bash
+  lineinfile:
+    path: "{{ user_home }}/.bashrc"
+    line: 'export PATH="$PATH:{{ user_home }}/.local/bin"'
+    create: yes
+  tags: dev
+
+- name: Добавление алиасов для dev-инструментов в .bashrc
+  blockinfile:
+    path: "{{ user_home }}/.bashrc"
+    block: |
+      alias d='docker'
+      alias dc='docker compose'
+      alias k='kubectl'
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (DEV ALIASES)"
+    create: yes
+  tags: dev
