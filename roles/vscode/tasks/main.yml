@@ -1,21 +1,38 @@
 ---
-# Установка VS Code через APT
-- name: Добавить GPG-ключ Microsoft
-  apt_key:
-    url: https://packages.microsoft.com/keys/microsoft.asc
-    state: present
+# Установка VS Code через APT (обновлённый плейбук)
+
+- name: Скачать и установить GPG‑ключ Microsoft в правильное расположение
+  shell: |
+    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && \
+    sudo install -D -o root -g root -m 644 microsoft.gpg /usr/share/keyrings/microsoft.gpg && \
+    rm -f microsoft.gpg
+  args:
+    executable: /bin/bash
   tags: vscode
 
-- name: Добавить репозиторий VS Code
-  apt_repository:
-    repo: deb [arch=amd64] https://packages.microsoft.com/repos/code stable main
-    state: present
-    filename: vscode
+- name: Создать файл репозитория VS Code в sources.list.d
+  copy:
+    content: |
+      Types: deb
+      URIs: https://packages.microsoft.com/repos/code
+      Suites: stable
+      Components: main
+      Architectures: amd64,arm64,armhf
+      Signed-By: /usr/share/keyrings/microsoft.gpg
+    dest: /etc/apt/sources.list.d/vscode.sources
+    mode: '0644'
+    owner: root
+    group: root
+  tags: vscode
+
+- name: Обновить кэш пакетов APT
+  apt:
+    update_cache: yes
   tags: vscode
 
 - name: Установить VS Code
   apt:
-    name: code
+    name: code  # или code-insiders, если нужно
     state: present
   tags: vscode
 
@@ -29,7 +46,8 @@
   when: code_check.rc == 0
   block:
     - name: Установка расширений VS Code
-      command: code --install-extension {{ item }} --force --no-sandbox --user-data-dir "{{ user_home }}/.config/Code/User"
+      command: >
+        code --install-extension {{ item }} --force --no-sandbox --user-data-dir "{{ user_home }}/.config/Code/User"
       loop: "{{ vscode_extensions }}"
       environment:
         HOME: "{{ user_home }}"
