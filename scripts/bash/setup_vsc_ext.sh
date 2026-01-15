@@ -2,23 +2,15 @@
 
 # Список расширений для установки (по одному на строку)
 EXTENSIONS=(
-  "adamhartford.vscode-base64"
   "doggy8088.go-extension-pack"
-  "dotjoshjohnson.xml"
   "eamodio.gitlens"
-  "formulahendry.code-runner"
-  "golang.go"
-  "hayden.extension-pack-manager"
-  "ms-azuretools.vscode-containers"
   "ms-ceintl.vscode-language-pack-ru"
   "ms-kubernetes-tools.vscode-kubernetes-tools"
-  "ms-vscode-remote.remote-containers"
-  "ms-vscode-remote.remote-wsl"
-  "nhoizey.gremlins"
-  "premparihar.gotestexplorer"
-  "quicktype.quicktype"
   "redhat.vscode-xml"
   "redhat.vscode-yaml"
+  "drblury.protobuf-vsc"
+  "ms-vscode-remote.remote-containers"
+  "formulahendry.docker-extension-pack"
 )
 
 # Переменные для статистики

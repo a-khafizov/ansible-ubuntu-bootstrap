@@ -43,18 +43,3 @@ core_packages:
   - yq                                   # Обработка YAML/JSON в командной строке
   - tmux                                 # Мультиплексор терминалов (разделение экрана, сессии)
 
-# Настройки для VS Code
-vscode_extensions:
-  - adamhartford.vscode-base64          # Работа с кодировкой Base64 (кодировка/декодирование)
-  - doggy8088.go-extension-pack         # Набор расширений для разработки на Go
-  - eamodio.gitlens                    # Расширенные возможности Git в VS Code (история, аннотации)
-  - formulahendry.code-runner          # Запуск кода одним кликом (поддержка множества языков)
-  - golang.go                          # Официальная поддержка Go (автодополнение, отладка)
-  - ms-ceintl.vscode-language-pack-ru # Русскоязычный языковой пакет для VS Code
-  - ms-kubernetes-tools.vscode-kubernetes-tools # Инструменты для работы с Kubernetes
-  - ms-vscode-remote.remote-containers # Разработка внутри контейнеров
-  - ms-vscode-remote.remote-wsl       # Разработка в среде WSL (Windows Subsystem for Linux)
-  - nhoizey.gremlins                   # Визуализация скрытых символов (пробелы, табуляции)
-  - quicktype.quicktype                # Генерация кода из JSON/schema (поддержка многих языков)
-  - redhat.vscode-xml                 # Расширенная поддержка XML (схемы, XPath)
-  - redhat.vscode-yaml                # Поддержка YAML (схемы, валидация)
