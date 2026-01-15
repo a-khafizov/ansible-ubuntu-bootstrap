@@ -3,13 +3,8 @@
 
 - hosts: localhost
   connection: local
-  become: yes
   vars_files:
     - group_vars/all.yml
-
-  vars:
-    user_home: "{{ ansible_env.HOME }}"
-    username: "{{ ansible_env.USER }}"
 
   pre_tasks:
     - name: Убедиться, что ~/.local/bin существует

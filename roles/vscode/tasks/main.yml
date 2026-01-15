@@ -8,6 +8,7 @@
     rm -f microsoft.gpg
   args:
     executable: /bin/bash
+  become: true
   tags: vscode
 
 - name: Создать файл репозитория VS Code в sources.list.d
@@ -23,48 +24,31 @@
     mode: '0644'
     owner: root
     group: root
-  tags: vscode
-
-- name: Обновить кэш пакетов APT
-  apt:
-    update_cache: yes
+  become: true
   tags: vscode
 
 - name: Установить VS Code
   apt:
     name: code  # или code-insiders, если нужно
     state: present
+  become: true
   tags: vscode
 
-- name: Проверка наличия VS Code
-  command: which code
-  register: code_check
-  ignore_errors: true
-  tags: vscode
+- name: Настройка конфигурации VS Code
+  copy:
+    content: |  # Содержимое файла настроек VS Code (JSON)
+      {
+        "editor.renderWhitespace": "all",        # Показывать все пробелы и табуляции
+        "files.autoSave": "onFocusChange",       # Автосохранение при потере фокуса окна
+        "editor.minimap.enabled": false,         # Отключить мини-карту (боковая панель с превью кода)
+        "workbench.colorTheme": "Default Dark+",   # Тема интерфейса: тёмная по умолчанию
+        "terminal.integrated.shell.linux": "/bin/bash"  # Оболочка терминала по умолчанию для Linux
+      }
+    dest: "{{ user_home }}/.config/Code/settings.json"  # Путь к файлу настроек пользователя
+    mode: '0644'  # Права доступа: владелец — чтение/запись, группа и другие — только чтение
+    owner: "{{ username }}"  # Владелец файла — пользователь, указанный в переменной username
+    group: "{{ username }}"  # Группа файла — та же, что и владелец
+  become: false
+  tags: vscode  # Тег для управления выполнением задачи
 
-- name: Настройка VS Code (если установлен)
-  when: code_check.rc == 0
-  block:
-    - name: Установка расширений VS Code
-      command: >
-        code --install-extension {{ item }} --force --no-sandbox --user-data-dir "{{ user_home }}/.config/Code/User"
-      loop: "{{ vscode_extensions }}"
-      environment:
-        HOME: "{{ user_home }}"
-      tags: vscode
 
-    - name: Настройка конфигурации VS Code
-      copy:
-        content: |
-          {
-            "editor.renderWhitespace": "all",
-            "files.autoSave": "onFocusChange",
-            "editor.minimap.enabled": false,
-            "workbench.colorTheme": "Default Dark+",
-            "terminal.integrated.shell.linux": "/bin/bash"
-          }
-        dest: "{{ user_home }}/.config/Code/User/settings.json"
-        mode: '0644'
-        owner: "{{ username }}"
-        group: "{{ username }}"
-      tags: vscode

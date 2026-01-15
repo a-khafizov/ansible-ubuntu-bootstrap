@@ -1,15 +1,15 @@
 ---
-# Базовая настройка системы: обновление пакетов, установка основных утилит
-
 - name: Обновление списка пакетов
   apt:
     update_cache: yes
+  become: true
   tags: core
-
+  
 - name: Установка основных пакетов
   apt:
     name: "{{ core_packages }}"
     state: present
+  become: true
   tags: core
 
 - name: Установка DBeaver через Snap
@@ -17,16 +17,7 @@
     name: dbeaver-ce
     classic: yes
     state: present
-  tags: core
-
-- name: Создание симлинков для bat и fd
-  file:
-    src: "/usr/bin/{{ item.src }}"
-    dest: "{{ user_home }}/.local/bin/{{ item.dest }}"
-    state: link
-  loop:
-    - { src: "batcat", dest: "bat" }
-    - { src: "fdfind", dest: "fd" }
+  become: true
   tags: core
 
 - name: Настройка Git
@@ -40,6 +31,7 @@
     - { name: "core.editor", value: "code --wait" }
     - { name: "init.defaultBranch", value: "main" }
     - { name: "pull.rebase", value: "false" }
+  become: false
   tags: core
 
 - name: Добавление алиасов в .bashrc
@@ -54,4 +46,5 @@
       alias gpo='git push origin'
     marker: "# {mark} ANSIBLE MANAGED BLOCK (ALIASES)"
     create: yes
+  become: false
   tags: core

@@ -9,16 +9,15 @@ install_ide_config: true
 # Пользовательские настройки
 username: "{{ lookup('env', 'USER') }}"          # Имя текущего пользователя (из окружения)
 user_home: "{{ lookup('env', 'HOME') }}"        # Домашняя директория пользователя (из окружения)
-target_user_home: "{{ ansible_user_dir }}" # Домашняя директория целевого пользователя (для задач, выполняемых от имени root)
 
 # Настройки Git
-git_username: "Developer"                 # Имя пользователя для Git-коммитов
-git_email: "developer@localhost"          # Email для Git-коммитов
+git_username: "developer"                 # Имя пользователя для Git-коммитов
+git_email: "dev@localhost"                # Email для Git-коммитов
 
 # Списки пакетов для установки
 core_packages:
-  - curl                                   # Загрузка файлов по HTTP/HTTPS (командная строка)
-  - wget                                   # Альтернатива curl для загрузки файлов
+  - curl                                 # Загрузка файлов по HTTP/HTTPS (командная строка)
+  - wget                                 # Альтернатива curl для загрузки файлов
   - git                                  # Система контроля версий
   - build-essential                      # Базовый набор для компиляции ПО в Debian/Ubuntu
   - software-properties-common           # Управление репозиториями APT
@@ -30,7 +29,7 @@ core_packages:
   - zip                                  # Создание ZIP-архивов
   - net-tools                            # Устаревшие сетевые утилиты (ifconfig, netstat)
   - openvpn                              # Клиент VPN по протоколу OpenVPN
-  - network-manager-openvpn-gnome      # GUI-интеграция OpenVPN в GNOME
+  - network-manager-openvpn-gnome        # GUI-интеграция OpenVPN в GNOME
   - htop                                 # Интерактивный монитор процессов (альтернатива top)
   - btop                                 # Современный монитор ресурсов с графиками
   - ncdu                                 # Анализ использования диска (в терминале)
