@@ -27,12 +27,26 @@
   become: true
   tags: vscode
 
+- name: Обновить список пакетов после добавления репозитория VS Code
+  apt:
+    update_cache: yes
+  become: true
+  tags: vscode
+
 - name: Установить VS Code
   apt:
     name: code  # или code-insiders, если нужно
     state: present
   become: true
   tags: vscode
+
+- name: Запустить VS Code от имени пользователя для создания директории конфигурации
+  become: false
+  command: code --no-sandbox --wait --new-window
+  environment:
+    DISPLAY: ":0"
+  tags: vscode
+  ignore_errors: yes  # На случай, если GUI недоступен (например, в CI/CD)
 
 - name: Настройка конфигурации VS Code
   copy:
