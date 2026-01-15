@@ -44,13 +44,23 @@ ansible-playbook -i inventory.ini setup-workstation.yml --tags "dev" -K
 ```
 .
 ├── setup-workstation.yml     # Главный плейбук
+├── ansible.cfg               # Конфигурационный файл Ansible
 ├── inventory.ini             # Инвентарь Ansible
-├── group_vars/all.yml         # Глобальные переменные
+├── group_vars/               # Глобальные переменные
+│   └── all.yml              # Глобальные переменные для всех хостов
 ├── roles/                     # Роли Ansible
 │   ├── core/                 # Базовая настройка системы
+│   │   └── tasks/main.yml   # Задачи для роли core
 │   ├── dev/                  # Среда разработки
+│   │   └── tasks/main.yml    # Задачи для роли dev
 │   └── vscode/               # Установка и настройка VS Code через APT
+│       └── tasks/main.yml    # Задачи для роли vscode
+├── scripts/                  # Вспомогательные скрипты
+│   └── bash/                # Bash скрипты
+│       ├── setup_git.sh     # Настройка Git
+│       └── setup_ssh.sh    # Генерация SSH-ключей
 └── docs/                     # Документация
+    └── ansible-explanation.md # Как работает Ansible в этом проекте
 ```
 
 ## Документация
