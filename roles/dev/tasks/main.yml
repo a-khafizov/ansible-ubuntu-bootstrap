@@ -103,15 +103,3 @@
     create: yes
   become: false
   tags: dev
-
-- name: Добавление алиасов для dev-инструментов в .bashrc
-  blockinfile:
-    path: "{{ user_home }}/.bashrc"
-    block: |
-      alias d='docker'
-      alias dc='docker compose'
-      alias k='kubectl'
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (DEV ALIASES)"
-    create: yes
-  become: false
-  tags: dev

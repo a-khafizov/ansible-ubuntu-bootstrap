@@ -20,20 +20,6 @@
   become: true
   tags: core
 
-- name: Настройка Git
-  git_config:
-    name: "{{ item.name }}"
-    scope: global
-    value: "{{ item.value }}"
-  loop:
-    - { name: "user.name", value: "{{ git_username }}" }
-    - { name: "user.email", value: "{{ git_email }}" }
-    - { name: "core.editor", value: "code --wait" }
-    - { name: "init.defaultBranch", value: "main" }
-    - { name: "pull.rebase", value: "false" }
-  become: false
-  tags: core
-
 - name: Добавление алиасов в .bashrc
   blockinfile:
     path: "{{ user_home }}/.bashrc"
@@ -44,6 +30,9 @@
       alias gd='git add .'
       alias gc='git commit -m'
       alias gpo='git push origin'
+      alias d='docker'
+      alias dc='docker compose'
+      alias k='kubectl'
     marker: "# {mark} ANSIBLE MANAGED BLOCK (ALIASES)"
     create: yes
   become: false
