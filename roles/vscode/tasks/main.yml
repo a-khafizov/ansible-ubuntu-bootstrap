@@ -46,7 +46,7 @@
   environment:
     DISPLAY: ":0"
   tags: vscode
-  ignore_errors: yes  # На случай, если GUI недоступен (например, в CI/CD)
+  ignore_errors: true  # На случай, если GUI недоступен (например, в CI/CD)
 
 - name: Настройка конфигурации VS Code
   copy:
