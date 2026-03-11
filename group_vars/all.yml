@@ -27,10 +27,6 @@ core_packages:
   - lsb-release                          # Информация о дистрибутиве Linux
   - unzip                                # Распаковка ZIP-архивов
   - zip                                  # Создание ZIP-архивов
-  - net-tools                            # Устаревшие сетевые утилиты (ifconfig, netstat)
-  - openvpn                              # Клиент VPN по протоколу OpenVPN
-  - network-manager-openvpn-gnome        # GUI-интеграция OpenVPN в GNOME
-  - htop                                 # Интерактивный монитор процессов (альтернатива top)
   - btop                                 # Современный монитор ресурсов с графиками
   - ncdu                                 # Анализ использования диска (в терминале)
   - nethogs                              # Мониторинг сетевого трафика по процессам
@@ -42,4 +38,9 @@ core_packages:
   - jq                                   # Обработка JSON в командной строке
   - yq                                   # Обработка YAML/JSON в командной строке
   - tmux                                 # Мультиплексор терминалов (разделение экрана, сессии)
+  - mtr                                  # Мониторинг сети (аналог traceroute)
+  - tcpdump                              # Сбор трафика сети
+  - wireshark                            # Сбор трафика сети (аналог tcpdump)
+  - nmap                                 # Сканер сети
+  - libreoffice-gnome                    # Программа для работы с документами (Word, Excel, PowerPoint)
 

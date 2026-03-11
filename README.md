@@ -1,8 +1,8 @@
-# Ubuntu Workstation Setup
+# Ansible Ubuntu Bootstrap
 
 ## О проекте
 
-Проект предоставляет набор Ansible плейбуков для автоматической установки и настройки всех необходимых инструментов для разработки на ОС Ubuntu. Проект помогает быстро настроить рабочую среду.
+Проект помогает быстро настроить рабочую среду.
 
 ## Требования
 
@@ -17,55 +17,72 @@
    sudo apt install -y ansible
    ```
 
-2. Запустите настройку:
+2. Запустите настройку (инвентарь по умолчанию использует `localhost`):
    ```bash
-   ansible-playbook -i inventory.ini setup-workstation.yml -K
+   ansible-playbook -i inventory.ini setup.yml -K
    ```
+   Флаг `-K` запросит пароль sudo для выполнения задач с повышенными привилегиями.
 
 ## Использование тегов
 
-Вы можете запускать только определенные части конфигурации с помощью тегов:
+Вы можете запускать только определённые части конфигурации с помощью тегов:
 
 ```bash
 # Установить только базовые утилиты
-ansible-playbook -i inventory.ini setup-workstation.yml --tags "core" -K
+ansible-playbook -i inventory.ini setup.yml --tags "core" -K
 
-# Установить среду разработки (ЯП)
-ansible-playbook -i inventory.ini setup-workstation.yml --tags "dev" -K
+# Установить среду разработки (языки программирования, Docker, kubectl)
+ansible-playbook -i inventory.ini setup.yml --tags "dev" -K
+
+# Установить только VS Code
+ansible-playbook -i inventory.ini setup.yml --tags "ide" -K
 ```
 
 Доступные теги:
-- `core` - базовая настройка системы
-- `dev` - настройка среды разработки
-- `ide` - настройка VS Code
+- `core` – базовая настройка системы (обновление пакетов, установка утилит, DBeaver, алиасы)
+- `dev` – настройка среды разработки (Python, Node.js, Java, Go, Docker, kubectl)
+- `ide` – установка и настройка VS Code
+
+## Управление установкой через переменные
+
+В файле `group_vars/all.yml` можно отключить определённые компоненты, изменив булевы переменные:
+
+```yaml
+install_core: true          # устанавливать базовые утилиты (роль core)
+install_dev_env: true       # устанавливать среду разработки (роль dev)
+install_ide_config: true    # устанавливать VS Code (роль vscode)
+```
+
+Если переменная установлена в `false`, соответствующая роль будет пропущена.
+
+## Проверка изменений (dry‑run)
+
+Перед реальным выполнением рекомендуется проверить, какие изменения будут внесены:
+
+```bash
+ansible-playbook -i inventory.ini setup.yml --check --diff -K
+```
 
 ## Структура проекта
 
 ```
 .
-├── setup-workstation.yml     # Главный плейбук
-├── ansible.cfg               # Конфигурационный файл Ansible
-├── inventory.ini             # Инвентарь Ansible
-├── group_vars/               # Глобальные переменные
-│   └── all.yml              # Глобальные переменные для всех хостов
-├── roles/                     # Роли Ansible
-│   ├── core/                 # Базовая настройка системы
-│   │   └── tasks/main.yml   # Задачи для роли core
-│   ├── dev/                  # Среда разработки
-│   │   └── tasks/main.yml    # Задачи для роли dev
-│   └── vscode/               # Установка и настройка VS Code через APT
-│       └── tasks/main.yml    # Задачи для роли vscode
-├── scripts/                  # Вспомогательные скрипты
-│   └── bash/                # Bash скрипты
-│       ├── setup_git.sh     # Настройка Git
-│       └── setup_ssh.sh    # Генерация SSH-ключей
-└── docs/                     # Документация
-    └── ansible-explanation.md # Как работает Ansible в этом проекте
+├── setup.yml               # Главный плейбук
+├── ansible.cfg             # Конфигурационный файл Ansible
+├── inventory.ini           # Инвентарь Ansible (localhost)
+├── group_vars/             # Глобальные переменные
+│   └── all.yml            # Глобальные переменные для всех хостов
+├── roles/                  # Роли Ansible
+│   ├── core/              # Базовая настройка системы
+│   │   └── tasks/main.yml # Задачи для роли core
+│   ├── dev/               # Среда разработки
+│   │   └── tasks/main.yml # Задачи для роли dev
+│   └── vscode/            # Установка и настройка VS Code через APT
+│       └── tasks/main.yml # Задачи для роли vscode
+└── scripts/                # Вспомогательные скрипты
+    └── bash/              # Bash скрипты
+        └── setup_git.sh   # Настройка Git (альтернативный способ)
 ```
-
-## Документация
-
-- [Как работает Ansible в этом проекте](docs/ansible-explanation.md)
 
 ## Лицензия
 

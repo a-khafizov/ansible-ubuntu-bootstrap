@@ -24,12 +24,6 @@
   blockinfile:
     path: "{{ user_home }}/.bashrc"
     block: |
-      alias ll='ls -la'
-      alias gs='git status'
-      alias gp='git pull'
-      alias gd='git add .'
-      alias gc='git commit -m'
-      alias gpo='git push origin'
       alias d='docker'
       alias dc='docker compose'
       alias k='kubectl'

@@ -1,6 +1,5 @@
 #!/bin/bash
 
-echo "Обновление пакетов и установка Git..."
 sudo apt update
 sudo apt install -y git
 

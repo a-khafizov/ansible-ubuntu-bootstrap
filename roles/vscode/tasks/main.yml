@@ -48,21 +48,5 @@
   tags: vscode
   ignore_errors: true  # На случай, если GUI недоступен (например, в CI/CD)
 
-- name: Настройка конфигурации VS Code
-  copy:
-    content: |  # Содержимое файла настроек VS Code (JSON)
-      {
-        "editor.renderWhitespace": "all",        # Показывать все пробелы и табуляции
-        "files.autoSave": "onFocusChange",       # Автосохранение при потере фокуса окна
-        "editor.minimap.enabled": false,         # Отключить мини-карту (боковая панель с превью кода)
-        "workbench.colorTheme": "Default Dark+",   # Тема интерфейса: тёмная по умолчанию
-        "terminal.integrated.shell.linux": "/bin/bash"  # Оболочка терминала по умолчанию для Linux
-      }
-    dest: "{{ user_home }}/.config/Code/settings.json"  # Путь к файлу настроек пользователя
-    mode: '0644'  # Права доступа: владелец — чтение/запись, группа и другие — только чтение
-    owner: "{{ username }}"  # Владелец файла — пользователь, указанный в переменной username
-    group: "{{ username }}"  # Группа файла — та же, что и владелец
-  become: false
-  tags: vscode  # Тег для управления выполнением задачи
 
 
