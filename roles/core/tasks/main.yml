@@ -1,26 +1,18 @@
 ---
-- name: Обновление списка пакетов
+- name: Update apt cache
   apt:
     update_cache: yes
   become: true
   tags: core
   
-- name: Установка основных пакетов
+- name: Install core packages
   apt:
     name: "{{ core_packages }}"
     state: present
   become: true
   tags: core
 
-- name: Установка DBeaver через Snap
-  snap:
-    name: dbeaver-ce
-    classic: yes
-    state: present
-  become: true
-  tags: core
-
-- name: Добавление алиасов в .bashrc
+- name: Set aliases .bashrc
   blockinfile:
     path: "{{ user_home }}/.bashrc"
     block: |

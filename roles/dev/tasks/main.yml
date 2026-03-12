@@ -1,23 +1,12 @@
 ---
-- name: Обновить список пакетов
+- name: Update apt cache
   apt:
     update_cache: yes
   changed_when: false
   become: true
   tags: dev
 
-# Python (используем системный, добавляем pip и venv)
-- name: Установить python3-pip и python3-venv
-  apt:
-    name:
-      - python3-pip
-      - python3-venv
-    state: present
-  become: true
-  tags: dev
-
-# Node.js (через NodeSource репозиторий)
-- name: Добавить репозиторий NodeSource для Node.js 20.x
+- name: Setup repo NodeSource 
   shell: curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
   args:
     executable: /bin/bash
@@ -25,81 +14,46 @@
   become: true
   tags: dev
 
-- name: Установить Node.js и npm
-  apt:
-    name: nodejs
-    state: present
-  become: true
-  tags: dev
-
-# Java (OpenJDK 17 — актуальная LTS)
-- name: Установить OpenJDK 17
-  apt:
-    name: openjdk-17-jdk
-    state: present
-  become: true
-  tags: dev
-
-# Go (ручная установка из официального архива)
-- name: Скачать Go 1.22.5 для Linux amd64
-  get_url:
-    url: https://go.dev/dl/go1.22.5.linux-amd64.tar.gz
-    dest: /tmp/go1.22.5.linux-amd64.tar.gz
-  tags: dev
-
-- name: Распаковать Go в /usr/local
-  unarchive:
-    src: /tmp/go1.22.5.linux-amd64.tar.gz
-    dest: /usr/local
-    remote_src: yes
-    extra_opts: [--strip-components=1]
-  become: true
-  tags: dev
-
-- name: Добавить Go в PATH (для всех пользователей)
-  copy:
-    content: |
-      export PATH="$PATH:/usr/local/go/bin"
-    dest: /etc/profile.d/go.sh
-    mode: '0644'
-  become: true
-  tags: dev
-
-# Docker (официальный репозиторий)
-- name: Добавить GPG‑ключ Docker
+- name: Setup GPG‑key Docker
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
   become: true
   tags: dev
 
-- name: Добавить репозиторий Docker
+- name: Setup repo Docker
   apt_repository:
     repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
     state: present
   become: true
   tags: dev
 
-- name: Установить Docker CE
+- name: Install Docker CE
   apt:
     name: docker-ce
     state: present
   become: true
   tags: dev
 
-# kubectl (официальная бинарная сборка)
-- name: Скачать kubectl v1.29.0
-  get_url:
-    url: https://dl.k8s.io/release/v1.29.0/bin/linux/amd64/kubectl
-    dest: /usr/local/bin/kubectl
-    mode: '0755'
+- name: Install python, java, go, nodejs
+  apt:
+    name:
+      - python3-pip
+      - python3-venv
+      - openjdk-17-jdk
+      - golang-go
+      - nodejs
+    state: present
   become: true
   tags: dev
 
-- name: Добавление ~/.local/bin в PATH для bash
-  lineinfile:
-    path: "{{ user_home }}/.bashrc"
-    line: 'export PATH="$PATH:{{ user_home }}/.local/bin"'
-    create: yes
-  become: false
+- name: Install VSCode, kubectl and DBeaver
+  snap:
+    names:
+      - code
+      - kubectl
+      - dbeaver-ce
+    classic: yes
+    state: present
+  become: true
   tags: dev

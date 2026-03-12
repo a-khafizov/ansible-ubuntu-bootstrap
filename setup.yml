@@ -22,7 +22,3 @@
     - role: dev
       when: install_dev_env | bool
       tags: dev
-
-    - role: vscode
-      when: install_ide_config | bool
-      tags: ide

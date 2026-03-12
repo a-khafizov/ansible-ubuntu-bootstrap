@@ -1,20 +1,12 @@
 ---
-# Глобальные переменные для настройки рабочего окружения
-
-# Флаги для управления установкой компонентов
 install_core: true
 install_dev_env: true
-install_ide_config: true
 
-# Пользовательские настройки
-username: "{{ lookup('env', 'USER') }}"          # Имя текущего пользователя (из окружения)
-user_home: "{{ lookup('env', 'HOME') }}"        # Домашняя директория пользователя (из окружения)
+user_home: "{{ lookup('env', 'HOME') }}"
 
-# Настройки Git
-git_username: "developer"                 # Имя пользователя для Git-коммитов
-git_email: "dev@localhost"                # Email для Git-коммитов
+git_username: "developer"
+git_email: "dev@localhost"
 
-# Списки пакетов для установки
 core_packages:
   - curl                                 # Загрузка файлов по HTTP/HTTPS (командная строка)
   - wget                                 # Альтернатива curl для загрузки файлов

@@ -33,15 +33,11 @@ ansible-playbook -i inventory.ini setup.yml --tags "core" -K
 
 # Установить среду разработки (языки программирования, Docker, kubectl)
 ansible-playbook -i inventory.ini setup.yml --tags "dev" -K
-
-# Установить только VS Code
-ansible-playbook -i inventory.ini setup.yml --tags "ide" -K
 ```
 
 Доступные теги:
 - `core` – базовая настройка системы (обновление пакетов, установка утилит, DBeaver, алиасы)
 - `dev` – настройка среды разработки (Python, Node.js, Java, Go, Docker, kubectl)
-- `ide` – установка и настройка VS Code
 
 ## Управление установкой через переменные
 
@@ -50,7 +46,6 @@ ansible-playbook -i inventory.ini setup.yml --tags "ide" -K
 ```yaml
 install_core: true          # устанавливать базовые утилиты (роль core)
 install_dev_env: true       # устанавливать среду разработки (роль dev)
-install_ide_config: true    # устанавливать VS Code (роль vscode)
 ```
 
 Если переменная установлена в `false`, соответствующая роль будет пропущена.
@@ -77,8 +72,6 @@ ansible-playbook -i inventory.ini setup.yml --check --diff -K
 │   │   └── tasks/main.yml # Задачи для роли core
 │   ├── dev/               # Среда разработки
 │   │   └── tasks/main.yml # Задачи для роли dev
-│   └── vscode/            # Установка и настройка VS Code через APT
-│       └── tasks/main.yml # Задачи для роли vscode
 └── scripts/                # Вспомогательные скрипты
     └── bash/              # Bash скрипты
         └── setup_git.sh   # Настройка Git (альтернативный способ)
