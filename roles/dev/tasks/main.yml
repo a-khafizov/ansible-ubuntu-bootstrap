@@ -49,11 +49,13 @@
 
 - name: Install VSCode, kubectl and DBeaver
   snap:
-    names:
-      - code
-      - kubectl
-      - dbeaver-ce
+    name: "{{ item }}"
     classic: yes
     state: present
+  loop:
+    - code
+    - kubectl
+    - dbeaver-ce
   become: true
   tags: dev
+
