@@ -35,26 +35,24 @@
   become: true
   tags: dev
 
-- name: Install python, java, go, nodejs
+- name: Install python, java, nodejs
   apt:
     name:
       - python3-pip
       - python3-venv
       - openjdk-17-jdk
-      - golang-go
       - nodejs
     state: present
   become: true
   tags: dev
 
-- name: Install VSCode, kubectl and DBeaver
+- name: Install VSCode and DBeaver
   snap:
     name: "{{ item }}"
     classic: yes
     state: present
   loop:
     - code
-    - kubectl
     - dbeaver-ce
   become: true
   tags: dev
