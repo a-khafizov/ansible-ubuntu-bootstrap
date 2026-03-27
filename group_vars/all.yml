@@ -34,5 +34,4 @@ core_packages:
   - tcpdump                              # Сбор трафика сети
   - wireshark                            # Сбор трафика сети (аналог tcpdump)
   - nmap                                 # Сканер сети
-  - libreoffice-gnome                    # Программа для работы с документами (Word, Excel, PowerPoint)
 
