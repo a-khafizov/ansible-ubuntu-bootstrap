@@ -24,3 +24,60 @@
     - postman
   become: true
   tags: dev
+
+- name: Install dev packages
+  apt:
+    name: "{{ dev_packages }}"
+    state: present
+  become: true
+  tags: dev
+
+- name: Install mongodb-mongosh
+  block:
+    - name: Import MongoDB GPG key
+      apt_key:
+        url: https://www.mongodb.org/static/pgp/server-7.0.asc
+        state: present
+      become: true
+      tags: dev
+
+    - name: Add MongoDB repository
+      apt_repository:
+        repo: 'deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse'
+        state: present
+        filename: mongodb-org-7.0
+      become: true
+      tags: dev
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+      become: true
+      tags: dev
+
+    - name: Install mongodb-mongosh package
+      apt:
+        name: mongodb-mongosh
+        state: present
+        update_cache: no
+      become: true
+      tags: dev
+  tags: dev
+
+- name: Install ClickHouse client via official script
+  block:
+    - name: Download and execute ClickHouse installation script
+      shell: |
+        curl -fsSL https://packages.clickhouse.com/install.sh | sudo bash
+      args:
+        executable: /bin/bash
+      become: true
+      tags: dev
+
+    - name: Install clickhouse-client package
+      apt:
+        name: clickhouse-client
+        state: present
+      become: true
+      tags: dev
+  tags: dev

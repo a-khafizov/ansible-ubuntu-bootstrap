@@ -35,3 +35,7 @@ core_packages:
   - wireshark                            # Сбор трафика сети (аналог tcpdump)
   - nmap                                 # Сканер сети
 
+
+dev_packages:
+  - postgresql-client                    # Клиент PostgreSQL
+  - redis-tools                          # Утилиты для Redis
