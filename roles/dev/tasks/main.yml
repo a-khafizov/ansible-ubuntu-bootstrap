@@ -81,3 +81,19 @@
       become: true
       tags: dev
   tags: dev
+
+- name: Install uvicorn via pipx
+  shell: pipx install uvicorn
+  args:
+    executable: /bin/bash
+  changed_when: false
+  become: true
+  tags: dev
+
+- name: Inject fastapi into uvicorn
+  shell: pipx inject uvicorn fastapi
+  args:
+    executable: /bin/bash
+  changed_when: false
+  become: true
+  tags: dev

@@ -39,3 +39,6 @@ core_packages:
 dev_packages:
   - postgresql-client                    # Клиент PostgreSQL
   - redis-tools                          # Утилиты для Redis
+  - openjdk-17-jdk                       # JDK 17
+  - maven                                # Средство сборки и развертывания Java-приложений
+  - pipx                                 # Установка и использование пакетов Python в виртуальной среде
