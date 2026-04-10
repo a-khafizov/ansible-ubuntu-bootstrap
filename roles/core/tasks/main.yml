@@ -12,14 +12,16 @@
   become: true
   tags: core
 
-- name: Set aliases .bashrc
+- name: Set .bashrc
   blockinfile:
     path: "{{ user_home }}/.bashrc"
     block: |
       alias d='docker'
       alias dc='docker compose'
       alias k='kubectl'
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (ALIASES)"
+      export PATH=$PATH:/usr/local/go/bin
+      export PATH=$PATH:/home/user/go/bin
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
     create: yes
   become: false
   tags: core
