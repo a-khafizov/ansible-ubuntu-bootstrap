@@ -58,7 +58,7 @@ ansible-playbook -i inventory.ini setup.yml --check --diff -K
 .
 ├── setup.yml               # Главный плейбук
 ├── ansible.cfg             # Конфигурационный файл Ansible
-├── inventory.ini           # Инвентарь Ansible (localhost)
+├── inventory.ini           # Инвентарь Ansible
 ├── group_vars/             # Глобальные переменные
 │   └── all.yml            # Глобальные переменные для всех хостов
 ├── roles/                  # Роли Ansible
@@ -68,7 +68,7 @@ ansible-playbook -i inventory.ini setup.yml --check --diff -K
 │   │   └── tasks/main.yml # Задачи для роли dev
 └── scripts/                # Вспомогательные скрипты
     └── bash/              # Bash скрипты
-        └── setup_git.sh   # Настройка Git (альтернативный способ)
+        └── setup_git.sh   # Настройка Git
 ```
 
 ## Лицензия
