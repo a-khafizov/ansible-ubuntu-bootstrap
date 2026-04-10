@@ -11,5 +11,5 @@
       tags: core
 
     - role: dev
-      when: install_dev_env | bool
+      when: install_dev | bool
       tags: dev

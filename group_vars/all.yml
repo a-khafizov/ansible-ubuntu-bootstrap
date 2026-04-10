@@ -1,11 +1,8 @@
 ---
 install_core: true
-install_dev_env: true
+install_dev: true
 
 user_home: "{{ lookup('env', 'HOME') }}"
-
-git_username: "developer"
-git_email: "dev@localhost"
 
 core_packages:
   - curl                                 # Загрузка файлов по HTTP/HTTPS (командная строка)
