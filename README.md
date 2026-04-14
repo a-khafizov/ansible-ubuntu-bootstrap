@@ -1,4 +1,4 @@
-# ansible ubuntu bootstrap
+# ansible-ubuntu-bootstrap
 
 ## Проект помогает быстро настроить рабочую среду.
 
@@ -50,25 +50,6 @@ install_dev_env: true       # устанавливать среду разраб
 
 ```bash
 ansible-playbook -i inventory.ini setup.yml --check --diff -K
-```
-
-## Структура проекта
-
-```
-.
-├── setup.yml               # Главный плейбук
-├── ansible.cfg             # Конфигурационный файл Ansible
-├── inventory.ini           # Инвентарь Ansible
-├── group_vars/             # Глобальные переменные
-│   └── all.yml            # Глобальные переменные для всех хостов
-├── roles/                  # Роли Ansible
-│   ├── core/              # Базовая настройка системы
-│   │   └── tasks/main.yml # Задачи для роли core
-│   ├── dev/               # Среда разработки
-│   │   └── tasks/main.yml # Задачи для роли dev
-└── scripts/                # Вспомогательные скрипты
-    └── bash/              # Bash скрипты
-        └── setup_git.sh   # Настройка Git
 ```
 
 ## Лицензия
